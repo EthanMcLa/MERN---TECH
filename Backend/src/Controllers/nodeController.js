@@ -13,7 +13,7 @@ export async function getAllNodes(req, res) {
  export  async function CreateNode(req, res) {
     try {
         const {title, content} = req.body;
-        const newNode = new Node({title:title, content});
+        const newNode = new Node({title, content});
         await newNode.save();
         res.status(201).json(newNode);
     } catch(err) {
@@ -23,7 +23,7 @@ export async function getAllNodes(req, res) {
  };
 
 export function UpdateNode(req, res) {
-    res.status(200).json({message: "Node Updated!"});
+  
 };
 
 export function DeleteNode(req, res) {
