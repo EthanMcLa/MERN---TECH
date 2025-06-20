@@ -26,7 +26,7 @@ app.use(rateLimiter);  //This will be our middleware to make sure  there isn't a
 app.use("/api/notes", nodesRoutes);
 
 
-connectDB.then(() => {
+connectDB().then(() => {
 app.listen(port, () => {
     console.log("Server Started on port, 5002!");
 })
