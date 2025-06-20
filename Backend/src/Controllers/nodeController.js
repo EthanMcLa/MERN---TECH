@@ -5,7 +5,7 @@ export async function getAllNodes(_, res) { //Not using req so we just add an un
         const notes = await Node.find().sort({createdAt: -1}); //newest one created at the front 
         res.status(200).json(notes);
     } catch(err) {
-        console.err("Error in get request", err);
+        console.error("Error in get request", err);
         res.status(500).json({message: "Internal Server Error"});
     }
  };
