@@ -6,6 +6,9 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import NoteCard from '../src/Components/NoteCard';
 import daisyui from "daisyui";
+import api from "../lib/axios"
+import { formateDate } from '../lib/utils';
+
 
 
 
@@ -17,7 +20,7 @@ const [loading, setLoading] = useState(true);
 useEffect(() => {
     const fetchNotes = async () => {
         try { 
-            const res = await axios.get("http://localhost:5002/api/notes");
+            const res = await api.get("/notes");
             setNotes(res.data);
             console.log(res.data); 
             setNotes(res.data);
@@ -36,24 +39,30 @@ useEffect(() => {
     fetchNotes();
 }, []);
 
-   return ( 
-   <div className="min-h-screen">
-      <Navbar/>
-    {isRateLimited && <RateLimitUI />}
- <div className="max-w-7xl mx-auto p-4 mt-6">
-        {loading && <div className="text-center text-primary py-10">Loading notes...</div>}
+  return (
+    <div className="min-h-screen">
+      <Navbar />
+
+      {isRateLimited && <RateLimitUI />}
+
+      <div className="max-w-7xl mx-auto p-4 mt-6">
+        {loading && <div className="text-center text-blue-600 py-10">Loading notes...</div>}
+
+        {notes.length === 0 && !isRateLimited && !loading && (
+          <div className="text-center py-10">
+            <p className="text-gray-500 text-lg">No notes found. Create your first note!</p>
+          </div>
+        )}
 
         {notes.length > 0 && !isRateLimited && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {notes.map(note => (
-             <NoteCard key={note._id} note={note} setNotes={setNotes}/>
+          <div className="flex flex-wrap gap-6">
+            {notes.map((note) => (
+              <NoteCard key={note._id} note={note} setNotes={setNotes} />
             ))}
-            </div>
-            )} 
-    </div>
-    
+          </div>
+        )}
+      </div>
     </div>
   );
-}
-
-export default HomePage
+};
+export default HomePage;
